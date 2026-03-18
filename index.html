@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Portal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. OPTION 1: MEDICAL THEME BACKGROUND
+           ========================================= */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            
+            /* High-Res Hospital Image */
+            background: url('https://img.freepik.com/free-photo/blur-hospital_1203-7957.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            
+            /* Blue Overlay (Tint) to make text readable */
+            box-shadow: inset 0 0 0 2000px rgba(0, 50, 100, 0.6); 
+        }
+
+        /* =========================================
+           2. GLASSMORPHISM CONTAINER ( The Box )
+           ========================================= */
+        .container { 
+            background: rgba(255, 255, 255, 0.95); /* 95% Opaque White */
+            width: 400px; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Deep Shadow */
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            backdrop-filter: blur(10px); /* Blurs the background behind the box */
+        }
+
+        /* =========================================
+           3. TYPOGRAPHY & INPUTS
+           ========================================= */
+        h2 { 
+            color: #004085; /* Dark Medical Blue */
+            margin-bottom: 10px; 
+            font-weight: 700; 
+            letter-spacing: 0.5px;
+        }
+        
+        p.subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Input Fields */
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 8px 0; 
+            border: 2px solid #e1e5ea; 
+            border-radius: 10px; 
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus { 
+            border-color: #007bff; 
+            background: #fff; 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        /* =========================================
+           4. STYLISH BUTTONS
+           ========================================= */
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 15px;
+            background: linear-gradient(to right, #0062cc, #007bff); /* Blue Gradient */
+            color: white; 
+            border: none; 
+            border-radius: 30px; /* Fully Rounded */
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover { 
+            transform: translateY(-2px); /* Lifts up slightly */
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Special Red Button for Reset Password */
+        .btn-reset {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+        }
+
+        /* =========================================
+           5. LINKS & ALERTS
+           ========================================= */
+        .link { 
+            margin-top: 20px; 
+            font-size: 13px; 
+            color: #666; 
+            cursor: pointer; 
+        }
+        .link span { 
+            color: #007bff; 
+            font-weight: 700; 
+            margin-left: 5px;
+            transition: color 0.2s;
+        }
+        .link span:hover { 
+            color: #0056b3; 
+            text-decoration: underline; 
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        /* Hidden Forms */
+        #reg-form, #forgot-form { display: none; }
+    </style>
+
+    <script>
+        function showForm(formId) {
+            // Hide all
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('reg-form').style.display = 'none';
+            document.getElementById('forgot-form').style.display = 'none';
+            
+            // Show Target
+            // We use specific animation classes if we want, but simple display block works best
+            document.getElementById(formId).style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="login-form">
+            <h2>🏥 HealthDesk Portal</h2>
+            <p class="subtitle">Secure Login for Patients & Staff</p>
+
+            <script>
+                const urlParams = new URLSearchParams(window.location.search);
+                if(urlParams.get('msg') === 'registered') document.write('<div class="alert success">Registration Successful! Please Login.</div>');
+                if(urlParams.get('msg') === 'password_reset') document.write('<div class="alert success">Password Reset! Please Login.</div>');
+                if(urlParams.get('error') === 'invalid') document.write('<div class="alert error">Invalid Username or Password!</div>');
+                if(urlParams.get('error') === 'invalid_details') document.write('<div class="alert error">Details did not match our records!</div>');
+            </script>
+
+            <form action="LoginServlet" method="post">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="link" onclick="showForm('forgot-form')">Forgot Password? <span>Reset Here</span></div>
+            <div class="link" onclick="showForm('reg-form')">New User? <span>Create Account</span></div>
+        </div>
+
+
+        <div id="reg-form">
+            <h2>📝 Create Account</h2>
+            <p class="subtitle">Join our healthcare community</p>
+
+            <form action="RegisterServlet" method="post">
+                <input type="text" name="first_name" placeholder="First Name" required>
+                <input type="text" name="last_name" placeholder="Last Name" required>
+                <input type="text" name="username" placeholder="Choose Username" required>
+                <input type="password" name="password" placeholder="Choose Password" required>
+                <input type="text" name="phone" placeholder="Phone (Required for recovery)" required>
+                <input type="text" name="address" placeholder="Address">
+                <button type="submit">Register Now</button>
+            </form>
+
+            <div class="link" onclick="showForm('login-form')">Already have an account? <span>Login</span></div>
+        </div>
+
+
+        <div id="forgot-form">
+            <h2 style="color: #dc3545;">🔐 Reset Password</h2>
+            <p class="subtitle">Verify your identity to proceed</p>
+
+            <form action="ForgotPasswordServlet" method="post">
+                <input type="text" name="username" placeholder="Enter Username" required>
+                <input type="text" name="phone" placeholder="Enter Registered Phone" required>
+                <input type="password" name="new_password" placeholder="Enter New Password" required>
+                <button type="submit" class="btn-reset">Reset Password</button>
+            </form>
+
+            <div class="link" onclick="showForm('login-form')">Back to <span>Login</span></div>
+        </div>
+
+    </div>
+
+</body>
+</html>
